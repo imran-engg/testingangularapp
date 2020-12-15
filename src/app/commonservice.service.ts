@@ -10,8 +10,8 @@ export class CommonserviceService {
 
   private subject = new Subject<any>();
 
-  sendData(message: any) {
-    debugger;
+  sendData(message:any) {
+    //debugger;
       this.subject.next(message);
   }
 
