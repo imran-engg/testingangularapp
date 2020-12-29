@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {ApiCallService} from '../api-call.service';
 import {CommonserviceService} from '../commonservice.service'
 @Component({
@@ -6,12 +7,17 @@ import {CommonserviceService} from '../commonservice.service'
   templateUrl: './buttons.component.html',
   styleUrls: ['./buttons.component.css']
 })
-export class ButtonsComponent implements OnInit {
+export class ButtonsComponent implements OnInit,OnDestroy {
   onloaddata:any=[];
   allTable:any=[];
   LaunchData:any=[];
   LandData:any=[];
   yearData:any=[];
+  yearselected:any;
+  subscription1: Subscription = new Subscription;
+  isActive:boolean=false;
+  landing:any;
+  launchbool:any;
   constructor(private ApiCallService: ApiCallService,private CommonserviceService:CommonserviceService) { }
 
   ngOnInit(): void {
@@ -24,8 +30,16 @@ export class ButtonsComponent implements OnInit {
     }
     )}
 
-  year(b:any){
-alert(b.target.value);
+    ngOnDestroy(){
+      //overcome memory leak
+      this.subscription1.unsubscribe();
+    }
+
+  year(b:any,index:any){
+alert(b.target.value +"index:"+index);
+//this.isActive=true;
+
+this.yearselected=b.target.value
 this.ApiCallService.getYearResponse(b.target.value).subscribe((resp:any)=>
 {
   this.yearData=resp;
@@ -53,7 +67,8 @@ this.ApiCallService.getYearResponse(b.target.value).subscribe((resp:any)=>
   //success launch boolean
   launch(c:any){
 alert(c.target.value)
-this.ApiCallService.getLaunchtruefalse(c.target.value).subscribe((resp:any)=>{
+this.launchbool=c.target.value;
+this.ApiCallService.getLaunchtruefalse(c.target.value,this.yearselected).subscribe((resp:any)=>{
 //console.log('response for Launch',resp);
 this.LaunchData=resp
 //console.log('this.LaunchData',this.LaunchData);
@@ -82,7 +97,8 @@ this.CommonserviceService.sendData(LaunchDataTable)
 
 land(d:any){
   alert(d.target.value)
-  this.ApiCallService.getLandTrueFalse(d.target.value).subscribe((resp:any)=>{
+  this.landing=d.target.value;
+  this.ApiCallService.getLandTrueFalse(d.target.value,this.launchbool,this.yearselected).subscribe((resp:any)=>{
   console.log('response for LandDataTable',resp);
   this.LandData=resp
   console.log('this.LandDataTable',this.LandData);

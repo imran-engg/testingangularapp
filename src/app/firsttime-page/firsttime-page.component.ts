@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import {ApiCallService} from '../api-call.service'
 import {CommonserviceService} from '../commonservice.service'
@@ -9,23 +10,28 @@ import {CommonserviceService} from '../commonservice.service'
 })
 
 
-export class FirsttimePageComponent implements OnInit {
+export class FirsttimePageComponent implements OnInit, OnDestroy {
+  
   dataTable:any=[];
   newarr:any=[];
   NewDataTable:any=[]
   LaunchBolean:boolean=false;
   FirstPageBolean:boolean=false;
+  subscription: Subscription = new Subscription;
+  
 
   constructor(private ApiCallService: ApiCallService,private CommonserviceService:CommonserviceService) { }
 
   ngOnInit() {
+    
     debugger;
-    this.ApiCallService.getuserDetails().subscribe((data:any)=>
+    this.subscription= this.ApiCallService.getuserDetails().subscribe((data:any)=>
     {
+      debugger;
       //first time below data will call on load
       this.FirstPageBolean=true;
       this.dataTable=data
-      console.log("first time loading page response",this.dataTable);
+     // console.log("first time loading page response",this.dataTable);
      this.newarr= this.dataTable.map((o:any)=> {
        
       return { 
@@ -56,6 +62,12 @@ export class FirsttimePageComponent implements OnInit {
       console.log("data received from button side on first page", this.NewDataTable)
     })
    
+  }
+
+  ngOnDestroy(){
+   // to overcome memory leak 
+    this.subscription.unsubscribe();
+
   }
 
 
