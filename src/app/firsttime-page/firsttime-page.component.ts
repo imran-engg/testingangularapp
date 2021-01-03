@@ -64,21 +64,21 @@ export class FirsttimePageComponent implements OnInit, OnDestroy {
       this.LaunchBolean=true;
       this.xyz=resp;
       var m=this.xyz.map((o:any)=>o.isAcitveboolean)[0];
-      //console.log("boolean value ",m)
+      //console.log("boolean value ",m) //something is selected in button component
       if(m){
         this.NewDataTable=resp;
       console.log("data received from button side on first page", this.NewDataTable)
       }
       
       
-      if(!m){
+      if(m==false){
         this.ApiCallService.getuserDetails().subscribe((data:any)=>
         {
           debugger;
           //first time below data will call on load
           this.FirstPageBolean=true;
           this.dataTable=data
-         // console.log("first time loading page response",this.dataTable);
+          console.log("first time loading page response",this.dataTable);
          this.newarr= this.dataTable.map((o:any)=> {
            
           return { 

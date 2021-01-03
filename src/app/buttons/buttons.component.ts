@@ -90,7 +90,8 @@ this.LaunchData=resp
     missionid: o.mission_id[0],
     launch_year:o.launch_year,
     launch_success:o.launch_success,
-    land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0]
+    land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0],
+    isAcitveboolean:this.isActive
 
   }
   
@@ -120,7 +121,8 @@ land(d:any){
       missionid: o.mission_id[0],
       launch_year:o.launch_year,
       launch_success:o.launch_success,
-      land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0]
+      land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0],
+      isAcitveboolean:this.isActive
   
     }
     
