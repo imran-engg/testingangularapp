@@ -20,7 +20,7 @@
     <div class="row">
     
       <div class="col-md-6 mt-1" *ngFor="let p of allTable; let i=index;">
-        <button type="button" [ngClass]="{'active': stateOfButton[i]}" (click)='year($event,i)' value={{p}} class="btn btn-outline-success">{{p}}</button>
+        <button type="button" [ngClass]="{'active': stateOfButton[i] && isActive}" (click)='year($event,i)' value={{p}} class="btn btn-outline-success">{{p}}</button>
         </div>
         </div>
         </div>

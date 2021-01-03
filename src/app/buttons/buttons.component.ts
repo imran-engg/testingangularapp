@@ -40,8 +40,9 @@ export class ButtonsComponent implements OnInit,OnDestroy {
 
   year(b:any,index:any){
 //alert(b.target.value +"index:"+index);
-//this.isActive=true;
-
+//this.isActive=false;
+this.isActive=!this.isActive;
+console.log("toggle ",this.isActive);
 this.stateOfButton.fill(false);
 this.stateOfButton[index]=!this.stateOfButton[index];
 //console.log('after click on particular button',this.stateOfButton)
@@ -58,7 +59,8 @@ this.ApiCallService.getYearResponse(b.target.value).subscribe((resp:any)=>
       missionid: o.mission_id[0],
       launch_year:o.launch_year,
       launch_success:o.launch_success,
-      land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0]
+      land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0],
+      isAcitveboolean:this.isActive
   
     }
     

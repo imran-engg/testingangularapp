@@ -18,6 +18,7 @@ export class FirsttimePageComponent implements OnInit, OnDestroy {
   LaunchBolean:boolean=false;
   FirstPageBolean:boolean=false;
   subscription: Subscription = new Subscription;
+  xyz: any=[];
   
 
   constructor(private ApiCallService: ApiCallService,private CommonserviceService:CommonserviceService) { }
@@ -25,41 +26,79 @@ export class FirsttimePageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     
     debugger;
-    this.subscription= this.ApiCallService.getuserDetails().subscribe((data:any)=>
-    {
-      debugger;
-      //first time below data will call on load
-      this.FirstPageBolean=true;
-      this.dataTable=data
-     // console.log("first time loading page response",this.dataTable);
-     this.newarr= this.dataTable.map((o:any)=> {
-       
-      return { 
-        image:o.links.mission_patch_small,
-        mission_name:o.mission_name,
-        flight_number:o.flight_number,
-        missionid: o.mission_id[0],
-        launch_year:o.launch_year,
-        launch_success:o.launch_success,
-        land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0]
-
+   
+      
+      this.subscription= this.ApiCallService.getuserDetails().subscribe((data:any)=>
+      {
+        debugger;
+        //first time below data will call on load
+        this.FirstPageBolean=true;
+        this.dataTable=data
+       // console.log("first time loading page response",this.dataTable);
+       this.newarr= this.dataTable.map((o:any)=> {
+         
+        return { 
+          image:o.links.mission_patch_small,
+          mission_name:o.mission_name,
+          flight_number:o.flight_number,
+          missionid: o.mission_id[0],
+          launch_year:o.launch_year,
+          launch_success:o.launch_success,
+          land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0]
+  
+        }
+        
       }
       
-    }
+      )
+      this.NewDataTable.push(...this.newarr)
+      console.log(" response on first page on load",this.NewDataTable);
+      })
     
-    )
-    this.NewDataTable.push(...this.newarr)
-    console.log(" response on first page on load",this.NewDataTable);
-    })
+   
     
     //subject call-- button comp--> firstpage comp
     this.CommonserviceService.getMessage().subscribe((resp:any)=>{
       this.NewDataTable=[];
       this.FirstPageBolean=false;
       this.LaunchBolean=true;
-      
-      this.NewDataTable=resp;
+      this.xyz=resp;
+      var m=this.xyz.map((o:any)=>o.isAcitveboolean)[0];
+      //console.log("boolean value ",m)
+      if(m){
+        this.NewDataTable=resp;
       console.log("data received from button side on first page", this.NewDataTable)
+      }
+      
+      
+      if(!m){
+        this.ApiCallService.getuserDetails().subscribe((data:any)=>
+        {
+          debugger;
+          //first time below data will call on load
+          this.FirstPageBolean=true;
+          this.dataTable=data
+         // console.log("first time loading page response",this.dataTable);
+         this.newarr= this.dataTable.map((o:any)=> {
+           
+          return { 
+            image:o.links.mission_patch_small,
+            mission_name:o.mission_name,
+            flight_number:o.flight_number,
+            missionid: o.mission_id[0],
+            launch_year:o.launch_year,
+            launch_success:o.launch_success,
+            land_success:o.rocket.first_stage.cores.map((o:any)=>o.land_success)[0]
+    
+          }
+          
+        }
+        
+        )
+        this.NewDataTable.push(...this.newarr)
+        //console.log(" response on first page on load",this.NewDataTable);
+        })
+      }
     })
    
   }
