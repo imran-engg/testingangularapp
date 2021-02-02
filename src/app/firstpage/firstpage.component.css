@@ -1,0 +1,13 @@
+.center{
+    
+    width:10vw;
+    height:10vh;
+    /* //background-color: honeydew; */
+    position:absolute;
+    left:50%;
+    top:50%;
+  transform: translate(-50%, -50%); 
+    
+   
+  
+}
