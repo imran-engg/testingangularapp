@@ -1,0 +1,92 @@
+
+
+
+<form class="center shadowTics" [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
+
+    <div class="row diff">
+      <div class="col-6">
+        <label  for="exampleInputEmail1">Credit Card Number*</label>
+      </div>
+        <div class="col-5">
+          <input formControlName="CreditCardNumber" type="text" placeholder="Your CreditCard Number"
+          class="form-control" id="CreditCardNumber">
+          <span class="text-danger errorMessage" *ngIf="myForm.get('CreditCardNumber').touched && myForm.get('CreditCardNumber').hasError('required')">
+            Oops, please provide a CC Number!
+          </span>
+        </div>
+       
+    </div>
+    
+
+
+    <div class="row diff">
+      <div class="col-6">
+        <label  for="CardHolder">Card Holder*</label>
+      </div>
+       <div class="col-5">
+        <input type="text" formControlName="CardHolder" placeholder="Your Name"
+        class="form-control" id="CardHolder">
+        <span class="text-danger errorMessage" *ngIf="myForm.controls.CardHolder.touched && myForm.controls.CardHolder.hasError('required')">
+          Oops, please provide Card Holder Name!
+      </span>
+       </div>
+    </div>
+    
+    <div class="row diff">
+      <div class="col-6">
+        <label  for="ExpirationDate">Expiration Date*</label>
+      </div>
+       <div class="col-5">
+        <input type="date" formControlName="ExpirationDate" (change)="datea($event)" placeholder="Expiration Date"
+        class="form-control" id="ExpirationDate">
+        <!-- <span class="text-danger errorMessage" *ngIf="myForm.controls.ExpirationDate.touched && myForm.controls.ExpirationDate.hasError('required')">
+         please provide Expiration Date!
+      </span> -->
+      <span class="text-danger errorMessage" *ngIf="(myForm.controls.ExpirationDate.touched || myForm.controls.ExpirationDate.dirty) && myForm.controls.ExpirationDate.hasError('dateValidator1')">
+        please provide Expirations Date greater than today!
+    </span>
+       </div>
+       
+           
+
+    </div>
+    <div class="row diff">
+      <div class="col-6">
+        <label  for="SecurityCode">Security Code</label>
+      </div>
+        <div class="col-5">
+          <input type="string" formControlName="SecurityCode" placeholder="Security Code"
+          class="form-control " id="SecurityCode">
+
+        </div>
+       
+    </div>
+    <!-- Amount -->
+    <div class="row diff">
+      <div class="col-6">
+        <label  for="Amount">Amount*</label>
+      </div>
+       <div class="col-5">
+        <input type="number" formControlName="amount" placeholder="Amount"
+        class="form-control" id="Amount">
+        <span class="text-danger errorMessage" *ngIf="myForm.controls.amount.touched && myForm.controls.amount.hasError('required')">
+          Oops, please enter Amount!
+      </span>
+       </div>
+      
+
+    </div>
+    
+      <!-- <div class="text-danger errorMessage" *ngIf="myForm.controls.amount.touched && myForm.controls.amount.hasError('minLength')">
+        Oops, please minimum 1 digit!
+      </div> -->
+      <div class="row diff">
+        <div class="col-4">
+          <button type="submit" class="btn btn-primary btn-submit" [disabled]="myForm.invalid"> Submit
+          </button>
+        </div>
+        
+      </div>
+    
+       
+</form>
